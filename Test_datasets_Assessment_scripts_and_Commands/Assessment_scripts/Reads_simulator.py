@@ -22,10 +22,7 @@ import argparse
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqIO import FastaIO
-from Bio.Alphabet import IUPAC
 from Bio.SeqRecord import SeqRecord
-from Bio.Alphabet import generic_dna
-
 
 def get_genome_size(fasta_file):
     genome = SeqIO.parse(fasta_file, 'fasta')
@@ -36,7 +33,7 @@ def get_genome_size(fasta_file):
 
 
 def export_dna_record(gene_seq, gene_id, gene_description, output_handle):
-    seq_object = Seq(gene_seq, IUPAC.unambiguous_dna)
+    seq_object = Seq(gene_seq)
     seq_record = SeqRecord(seq_object)
     seq_record.id = gene_id
     seq_record.description = gene_description
@@ -75,7 +72,7 @@ def simulate_reads(pwd_genome_file, read_number, read_length, insert_size, split
             current_fragment = seq_part_1_seq + seq_part_2_seq
         current_fragment_r1 = current_fragment[:read_length]
         current_fragment_r2 = current_fragment[-read_length:]
-        current_fragment_r2_reverse_complement = str(Seq(current_fragment_r2, generic_dna).reverse_complement())
+        current_fragment_r2_reverse_complement = str(Seq(current_fragment_r2).reverse_complement())
         current_read_r1_id = 'r%s_from_%s_%sth_bp_#0/1' % (n, genome_name, rdm_num)
         current_read_r2_id = 'r%s_from_%s_%sth_bp_#0/2' % (n, genome_name, rdm_num)
         if split == 1:
