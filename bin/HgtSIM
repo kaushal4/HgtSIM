@@ -258,11 +258,14 @@ if __name__ == '__main__':
     if mixed_mode == None:
         output_folder = '%s_outputs_%s_%s' % (output_prefix, mutation_level, ratio)
         pwd_log_file = '%s/%s_%s.log' % (output_folder, output_prefix, datetime.now().strftime('%Y-%m-%d_%Hh-%Mm-%Ss_%f'))
+
+        force_create_folder(output_folder)
         report_and_log(('Mixed mode set to False'), pwd_log_file, keep_quiet)
 
     else:
         mixed_mode_test_split = mixed_mode.split('-')
         if len(mixed_mode_test_split) != 2:
+            # there is a bug here, pwd_log_file is not defined
             report_and_log(('Please check the parameter format for argument "mixed", e.g.: 5-25'), pwd_log_file, keep_quiet)
             exit()
         else:
@@ -270,6 +273,8 @@ if __name__ == '__main__':
             max_iden = float(mixed_mode_test_split[1])
             output_folder = '%s_outputs_min%s-max%s_%s' % (output_prefix, min_iden, max_iden, ratio)
             pwd_log_file = '%s/%s_%s.log' % (output_folder, output_prefix, datetime.now().strftime('%Y-%m-%d_%Hh-%Mm-%Ss_%f'))
+
+            force_create_folder(output_folder)
             report_and_log(('Mixed mode set to True, minimum mutation level: %s, maximum mutation level: %s' % (min_iden, max_iden)), pwd_log_file, keep_quiet)
 
     if recipients_folder[-1] == '/':
@@ -306,7 +311,6 @@ if __name__ == '__main__':
 
 
     # create random mutation output folder
-    force_create_folder(output_folder)
     force_create_folder(pwd_output_folder)
 
 
